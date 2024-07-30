@@ -12,3 +12,7 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   }
 });
+
+const DB = client.db("SteemDB");
+
+export default DB
