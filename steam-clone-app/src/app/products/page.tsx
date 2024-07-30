@@ -1,16 +1,21 @@
-import Banner from "@/components/Banner";
 import { Card } from "@/components/Card";
-import Image from "next/image";
 
-export default function Home() {
+export default function Products() {
   return (
     <div className="bg-slate-800 min-h-screen">
-      <div className="bg-slate-700">
-        <Banner />
+      <div className="flex justify-center p-4 items-center">
+        <div className="input input-bordered  w-[85%] h-[50px] input-sm">
+          <form action="" method="get" className="flex items-center justify-start mt-2">
+            <input
+              type="search"
+              name="search"
+              placeholder="Search"
+              //   onChange={(e) => setSearch(e.target.value)}
+            />
+          </form>
+        </div>
       </div>
       <div className="flex flex-wrap justify-center mx-auto gap-4 p-4">
-        <Card />
-        <Card />
         <Card />
         <Card />
         <Card />
@@ -41,6 +46,6 @@ export default function Home() {
           <a className="link link-hover">Cookie policy</a>
         </nav>
       </footer>
-    </div>  
+    </div>
   );
 }
