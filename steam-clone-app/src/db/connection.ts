@@ -1,18 +1,29 @@
-import { MongoClient, ServerApiVersion } from 'mongodb';
-const uri = process.env.MONGODB_URL;
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+import { Db, MongoClient } from "mongodb";
 
-if(!uri) {
-    throw new Error ("MONGODB ENV must be provided")
+const connectionString = process.env.MONGODB_URL;
+
+// Memastikan bahwa connectionString sudah ada value-nya
+if (!connectionString) {
+  throw new Error("MONGODB_CONNECTION_STRING is not defined");
 }
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
+
+// Tipe data dari client adalah MongoClient
+let client: MongoClient;
+
+// Fungsi ini akan mengembalikan client yang sudah terkoneksi dengan MongoDB
+// Hanya boleh ada 1 instance client (Singleton)
+export const getMongoClientInstance = async () => {
+  if (!client) {
+    client = await MongoClient.connect(connectionString);
+    await client.connect();
   }
-});
 
-const DB = client.db("SteemDB");
+  return client;
+};
 
-export default DB
+export const getDB = async () => {
+    const client = await getMongoClientInstance()
+    const db: Db = client.db("SteemDB")
+
+    return db
+}

@@ -1,6 +1,7 @@
 import logo from "@/app/assets/steam-logo.png";
 import Image from "next/image";
-export default function Register() {
+export default function Login() {
+  
   return (
     <div className="bg-slate-800">
       <div className="relative flex flex-col justify-center h-screen overflow-hidden">
