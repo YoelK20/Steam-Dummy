@@ -1,31 +1,32 @@
 import Image from "next/image";
 import adImage from "@/app/assets/Palword.jpg";
+
 const Banner = () => {
   return (
-    <>
-      <div className="carousel w-full">
-        <div id="item1" className="carousel-item w-full">
+    <div className="w-full overflow-hidden">
+      <div className="carousel w-full h-96 relative">
+        <div id="item1" className="carousel-item w-full h-full">
           <img
-            src="https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp"
-            className="w-full"
+            src="https://ltp-medias.s3.eu-west-3.amazonaws.com/wp-content/uploads/2022/09/16231043/palworld.jpg"
+            className="w-full h-full object-contain"
           />
         </div>
-        <div id="item2" className="carousel-item w-full">
+        <div id="item2" className="carousel-item w-full h-full">
           <img
-            src="https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp"
-            className="w-full"
+            src="https://i.ytimg.com/vi/SO5-G3Argu4/maxresdefault.jpg"
+            className="w-full h-full object-contain"
           />
         </div>
-        <div id="item3" className="carousel-item w-full">
+        <div id="item3" className="carousel-item w-full h-full">
           <img
-            src="https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp"
-            className="w-full"
+            src="https://jegged.com/img/Games/Final-Fantasy-IX/Walkthrough-PS4/FFIX-00023-Final-Fantasy-Title-Screen.png"
+            className="w-full h-full object-contain"
           />
         </div>
-        <div id="item4" className="carousel-item w-full">
+        <div id="item4" className="carousel-item w-full h-full">
           <img
-            src="https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp"
-            className="w-full"
+            src="https://res.cloudinary.com/drfs0ykc1/image/upload/v1722406203/wnpzpixvijorkqbavtgo.jpg"
+            className="w-full h-full object-contain"
           />
         </div>
       </div>
@@ -43,7 +44,7 @@ const Banner = () => {
           4
         </a>
       </div>
-    </>
+    </div>
   );
 };
 
