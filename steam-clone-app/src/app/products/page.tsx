@@ -25,7 +25,7 @@ async function fetchProducts(): Promise<ProductInput[]> {
     });
 
     const data: ApiResponseType<ProductInput[]> = await res.json();
-    console.log(data, "<<<<< Hasil fetch all product data");
+    // console.log(data, "<<<<< Hasil fetch all product data");
     if (!res.ok) {
       throw new Error("Failed to Fetch data");
     }
@@ -39,12 +39,19 @@ async function fetchProducts(): Promise<ProductInput[]> {
 
 export default function Products() {
   const [products, setProducts] = useState<ProductInput[]>([]);
-  console.log(products, "<<<<<< hasil dari products");
+  const [loading, setLoading] = useState<boolean>(true);
+  // console.log(products, "<<<<<< hasil dari products");
 
   useEffect(() => {
     fetchProducts()
-      .then((data) => setProducts(data))
-      .catch((error) => console.log(error));
+      .then((data) => {
+        setProducts(data)
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.log(error)
+        setLoading(false)
+      });
   }, []);
   return (
     <div className="bg-slate-800 min-h-screen">
@@ -65,10 +72,22 @@ export default function Products() {
         </div>
       </div>
       <div className="flex flex-wrap justify-center mx-auto gap-4 p-4">
-        {products.map((el) => (
-          
-            <Card key={el._id.toString()} id={el._id.toString()} description={el.description} name={el.name} excerpt={el.excerpt} thumbnail={el.thumbnail} price={el.price} slug={el.slug}/>
-        ))}
+        {loading ? (
+          <div className="text-white text-xl">Loading...</div>
+        ) : (
+          products.map((el) => (
+            <Card
+              key={el._id.toString()}
+              id={el._id.toString()}
+              description={el.description}
+              name={el.name}
+              excerpt={el.excerpt}
+              thumbnail={el.thumbnail}
+              price={el.price}
+              slug={el.slug}
+            />
+          ))
+        )}
       </div>
     </div>
   );

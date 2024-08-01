@@ -2,7 +2,7 @@ import { Db, MongoClient } from "mongodb";
 
 const connectionString = process.env.MONGODB_URL;
 
-console.log(connectionString, '<<< connection string')
+// console.log(connectionString, '<<< connection string')
 // Memastikan bahwa connectionString sudah ada value-nya
 if (!connectionString) {
   throw new Error("MONGODB_CONNECTION_STRING is not defined");

@@ -77,8 +77,15 @@ class UserModel {
   }
 
   static async userLogin(user: UserLoginInput) {
-    LoginSchema.parse(user);
+    const ZodResult = LoginSchema.safeParse(user);
 
+    if(!ZodResult.success) {
+      const errPath = ZodResult.error.issues[0].path[0]
+      const errMesage = ZodResult.error.issues[0].message
+      const errFinalMessage = `${errPath}-${errMesage}`
+
+      throw errFinalMessage
+    }
     const DB = await getDB();
     const findUsername = await DB.collection("Users").findOne({
       username: user.username,
@@ -123,6 +130,15 @@ class UserModel {
       .toArray()) as UserInput[];
 
     return users;
+  }
+
+  static async getUserByUsername(username: string): Promise<UserInput>{
+    const DB = await getDB()
+    const user = (await DB.collection("Users").findOne(
+      { username }
+    )) as UserInput;
+
+    return user
   }
 }
 
