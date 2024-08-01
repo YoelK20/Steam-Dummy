@@ -10,22 +10,15 @@ export default function NavBar() {
             <a>Store</a>
           </li>
           <li>
-            <details>
-              <summary>Products</summary>
-              <ul className="p-2">
-                <li>
-                  <a>All Products</a>
-                </li>
-                <li>
-                  <a>Wishlist</a>
-                </li>
-              </ul>
-            </details>
+            <a>Product</a>
+          </li>
+          <li>
+            <a>Wishlist</a>
           </li>
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        <a className="btn">Logout</a>
       </div>
     </div>
     

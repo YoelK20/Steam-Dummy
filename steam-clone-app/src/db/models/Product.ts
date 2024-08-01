@@ -12,8 +12,8 @@ export type ProductInput = {
   tags: string[];
   thumbnail: string;
   images: string[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type CreateProductInput = Omit<ProductInput, "_id">;
@@ -32,7 +32,8 @@ class ProductModel {
     
     const game : CreateProductInput = {
         ...newProduct,
-        slug: `${newProduct.name.split(" ").join("-")}-${new Date(newProduct.createdAt).getTime()}`
+        slug: `${newProduct.name.split(" ").join("-")}-${new Date(newProduct.createdAt).getTime()}`,
+        createdAt: new Date()
     }
 
     const newGame = DB.collection("Games").insertOne(game)
@@ -43,10 +44,19 @@ class ProductModel {
     return data
   }
 
-  static async getAllProduct(){
+  static async getAllProduct(): Promise<ProductInput[]>{
     const DB = await getDB()
-    const games = DB.collection("Games").find().toArray()
+    const games = (await DB.collection("Games").find().toArray()) as ProductInput[]
 
     return games
   }
+
+  static async getProductBySlug(slug: string): Promise<ProductInput>{
+    const DB = await getDB()
+    const game = (await DB.collection("Games").findOne({slug})) as ProductInput
+
+    return game
+  }
 }
+
+export default ProductModel

@@ -5,12 +5,12 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();    
     const data = await UserModel.userLogin(body);
-    console.log(data);
+    console.log(body);
     
 
     return NextResponse.json(
       {
-        message: "Success Register",
+        message: `Success Login with User ${data.username}`,
         data
       },
       {

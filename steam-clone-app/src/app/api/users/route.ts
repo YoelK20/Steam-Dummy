@@ -1,16 +1,16 @@
-import ProductModel from "@/db/models/Product";
+import UserModel from "@/db/models/User";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const products = await ProductModel.getAllProduct()
+    const userData = await UserModel.getUsers();
     return NextResponse.json({
-        status: 200,
-        data: products
+      status: 200,
+      data: userData,
     });
   } catch (error) {
     console.log(error);
     return error
     
-  };
-};
+  }
+}
