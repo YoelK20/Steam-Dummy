@@ -18,17 +18,34 @@ import { ProductInput } from "@/db/models/Product";
 //   updatedAt: Date;
 // };
 
+async function fetchProducts(): Promise<ProductInput[]> {
+  try {
+    const res = await fetch("http://localhost:3000/api/products", {
+      cache: "no-store",
+    });
 
+    const data: ApiResponseType<ProductInput[]> = await res.json();
+    console.log(data, "<<<<< Hasil fetch all product data");
+    if (!res.ok) {
+      throw new Error("Failed to Fetch data");
+    }
+
+    return data.data || [];
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
 
 export default function Products() {
   const [products, setProducts] = useState<ProductInput[]>([]);
   console.log(products, "<<<<<< hasil dari products");
 
-  // useEffect(() => {
-  //   fetchProducts()
-  //     .then((data) => setProducts(data))
-  //     .catch((error) => console.log(error));
-  // }, []);
+  useEffect(() => {
+    fetchProducts()
+      .then((data) => setProducts(data))
+      .catch((error) => console.log(error));
+  }, []);
   return (
     <div className="bg-slate-800 min-h-screen">
       <div className="flex justify-center p-4 items-center">
