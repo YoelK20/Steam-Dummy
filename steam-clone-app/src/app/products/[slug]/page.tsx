@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { localUrl } from '@/db/helpers/BaseUrl';
+import { addWishlist } from './action';
 
 interface Product {
   data: any;
@@ -41,8 +42,14 @@ async function fetchProductBySlug(slug: string): Promise<Product> {
   return data.data;
 }
 
+
 const GameDetail = async ({ params }: { params: { slug: string } }) => {
   const product = await fetchProductBySlug(params.slug);
+
+  async function handleAddWish(){
+    const data = await addWishlist(product.id)
+    return data
+  }
 
   return (
     <div className="bg-gray-800 min-h-screen text-white p-6">
@@ -68,7 +75,7 @@ const GameDetail = async ({ params }: { params: { slug: string } }) => {
           <div className="w-1/4">
             <h1 className="text-3xl font-bold">{product.name}</h1>
             <p className="mt-2">{product.description}</p>
-            <p className="mt-4"><span className="font-bold">Release Date:</span> 7 Dec, 2022</p>
+            <p className="mt-4"><span className="font-bold">Release Date:</span>{product.createdAt}</p>
             <div className="mt-4">
               <span className="font-bold">Tags:</span>
               <div className="mt-2">
@@ -78,7 +85,7 @@ const GameDetail = async ({ params }: { params: { slug: string } }) => {
               </div>
             </div>
             <div className="mt-4">
-              <form action="/api/wishlist" method="post">
+              <form>
                 <input type="hidden" name="productId" value={product.id} />
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                   Add to your wishlist

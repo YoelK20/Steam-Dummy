@@ -1,30 +1,48 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { addWishlist } from '@/app/products/[slug]/action';
+import WishlistModel, { CreateWishListItemInput } from "@/db/models/Wishlist";
+import { ObjectId } from "mongodb";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    try {
-      const { productId } = req.body;
+export async function POST(req: NextRequest) {
+  try {
+    const body = await req.json();
+    // const newWish = async ():Promise<CreateWishListInput>  => {
+    //     return req.headers.get("")
+    // }
+    
+    const data = await WishlistModel.addWishList(body);
 
-      const headers = req.headers;
-      const userId = headers['x-user-id'] as string;
-
-      if (!userId) {
-        return res.status(401).json({ error: 'User not authenticated' });
+    return NextResponse.json(
+      {
+        message: `Success add to wishlist`,
+        data,
+      },
+      {
+        status: 200,
       }
-
-      const newWishlistItem = await addWishlist(userId, productId);
-
-      return res.status(200).json({
-        message: 'Wishlist item added successfully',
-        data: newWishlistItem,
-      });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: 'Internal Server Error' });
-    }
-  } else {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).end(`Method ${req.method} Not Allowed`);
+    );
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      {
+        message: "Internal Server Error",
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }
+
+// export async function GET(req: NextRequest) {
+//     try {
+//         const body = await req.json()
+//         console.log(body);
+        
+//         const wishListData = await WishlistModel.getWishList(body.userId)
+//         return NextResponse.json({});
+//     } catch (error) {
+//         const body = await req.json()
+//         console.log(error);
+//         return error
+//     }
+// }
