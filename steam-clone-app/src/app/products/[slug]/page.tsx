@@ -1,54 +1,48 @@
-import Image from 'next/image';
-import img from "@/app/assets/guardians-galaxy-scaled.jpg"
 import Link from 'next/link';
-import { Metadata, ResolvedMetadata } from 'next';
+import { Metadata } from 'next';
 import { localUrl } from '@/db/helpers/BaseUrl';
 
 interface Product {
-  data: any
+  data: any;
   id: string;
   name: string;
   description: string;
   thumbnail: string;
-  images: string[]
+  images: string[];
   tags: string[];
   createdAt: string;
 }
 
 type Props = {
-  params: { slug:string }
-  searchParams : { [key : string]: string | string[] | undefined}
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export async function generateMetadata (
-  { params, searchParams } : Props,
+export async function generateMetadata(
+  { params, searchParams }: Props,
 ): Promise<Metadata> {
-  const slug = params.slug
+  const slug = params.slug;
 
-  const game : Product = await fetchProductBySlug(slug)
+  const game: Product = await fetchProductBySlug(slug);
 
   return {
     title: game.name,
     description: game.description
-  }
-
+  };
 }
 
-async function fetchProductBySlug (slug: string) : Promise<Product>{
-  const res = await fetch(`${localUrl}/api/products/${slug}`)
-  const data : Product = await res.json()
-  if(!res.ok){
-    throw new Error (`Failed to fetch data product ${slug}`)
+async function fetchProductBySlug(slug: string): Promise<Product> {
+  const res = await fetch(`${localUrl}/api/products/${slug}`);
+  const data: Product = await res.json();
+  if (!res.ok) {
+    throw new Error(`Failed to fetch data product ${slug}`);
   }
-  // console.log(data.data);
-  
-  return data.data
+
+  return data.data;
 }
 
 const GameDetail = async ({ params }: { params: { slug: string } }) => {
-  const product = await fetchProductBySlug(params.slug)
-  // console.log(product, "<<<< ini slugs");
-  
+  const product = await fetchProductBySlug(params.slug);
 
   return (
     <div className="bg-gray-800 min-h-screen text-white p-6">
@@ -69,9 +63,6 @@ const GameDetail = async ({ params }: { params: { slug: string } }) => {
               <div className="w-1/5 ml-2">
                 <img src={product.images[3]} alt="Thumbnail 4" width={200} height={100} className="rounded" />
               </div>
-              {/* <div className="w-1/5 ml-2">
-                <img src={img} alt="Thumbnail 4" width={200} height={100} className="rounded" />
-              </div> */}
             </div>
           </div>
           <div className="w-1/4">
@@ -81,15 +72,22 @@ const GameDetail = async ({ params }: { params: { slug: string } }) => {
             <div className="mt-4">
               <span className="font-bold">Tags:</span>
               <div className="mt-2">
-                <span className="bg-gray-700 p-1 rounded mr-2">{product.tags[0]}</span>
-                <span className="bg-gray-700 p-1 rounded mr-2">{product.tags[1]}</span>
-                <span className="bg-gray-700 p-1 rounded mr-2">{product.tags[2]}</span>
+                {product.tags.map((tag, index) => (
+                  <span key={index} className="bg-gray-700 p-1 rounded mr-2">{tag}</span>
+                ))}
               </div>
             </div>
             <div className="mt-4">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add to your wishlist</button>
+              <form action="/api/wishlist" method="post">
+                <input type="hidden" name="productId" value={product.id} />
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  Add to your wishlist
+                </button>
+              </form>
               <Link href={`/products`}>
-              <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4">Back to Home</button>
+                <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4">
+                  Back to Home
+                </button>
               </Link>
             </div>
           </div>

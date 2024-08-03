@@ -2,16 +2,36 @@ import logo from "@/app/assets/steam-logo.png";
 import Image from "next/image";
 import { doLogin } from "./action";
 import ClientFlashComponent from "@/components/ClientFlashComponent";
+import { localUrl } from "@/db/helpers/BaseUrl";
+import { ApiResponseType } from "../api/types";
+import { redirect } from "next/navigation";
+
 export default function Login() {
 
   // const handleFormAction = async(form : FormData) => {
+      /* token gk tersimpan */
   //   "use server";
-  //   const res = await fetch(`${localUrl}/api/register`, {
+  //   const res = await fetch(`${localUrl}/api/login`, {
   //     method: "POST",
-
+  //     body: JSON.stringify({
+  //       username: form.get("username"),
+  //       password: form.get("password")
+  //     }),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
   //   })
+  //   const responseJson : ApiResponseType<unknown> = await res.json();
+  //   console.log(responseJson);
     
+
+  //   if(!res.ok){
+  //     let message = responseJson.error ?? "Something went wrong";
+  //     return redirect(`/login?error=${message}`)
+  //   }
+  //   return redirect("/")
   // }
+
   return (
     <div className="bg-slate-800">
       <ClientFlashComponent/>

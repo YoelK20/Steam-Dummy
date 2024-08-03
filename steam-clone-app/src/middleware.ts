@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { readPayloadJose, verifyToken } from "@/db/helpers/jwt";
+import { redirect } from "next/navigation";
 
 export async function middleware(request: NextRequest) {
    console.log(request.method, request.url)
@@ -15,17 +16,19 @@ export async function middleware(request: NextRequest) {
   }
 
   if (request.url.includes("/wishlist") || request.url.includes("/products")) {
-    console.log(request.method, request.url, "<<>>>>");
+    // console.log(request.method, request.url, "<<>>>>");
     const cookiesStore = cookies();
     const token = cookiesStore.get("token");
 
-    if (!token) {
-      return NextResponse.json({
-        statusCode: 401,
-        error: "Unauthorized",
-      });
+    // if (!token) {
+    //   return NextResponse.json({
+    //     statusCode: 401,
+    //     error: "Unauthorized",
+    //   });
+    // }
+    if(!token){
+      return NextResponse.redirect(new URL ("/login", request.url))
     }
-
     const tokenData = await readPayloadJose<{ id: string; username: string }>(
       token.value
     );
