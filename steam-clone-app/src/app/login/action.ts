@@ -33,7 +33,7 @@ export async function doLogin (form: FormData){
     }
 
     const user = await UserModel.getUserByUsername(parsedData.data.username)
-    console.log(user);
+    // console.log(user);
     
     if(!user || !compareTextWithHash(parsedData.data.password, user.password)){
         return redirect (`http://localhost:3000/login?error=Invalid%20credentials`)

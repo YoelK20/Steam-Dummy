@@ -51,6 +51,13 @@ class ProductModel {
     return games
   }
 
+  static async get8Product(): Promise<ProductInput[]>{
+    const DB = await getDB()
+    const games = (await DB.collection("Games").find().limit(8).toArray()) as ProductInput[]
+
+    return games
+  }
+
   static async getProductBySlug(slug: string): Promise<ProductInput>{
     const DB = await getDB()
     const game = (await DB.collection("Games").findOne({slug})) as ProductInput

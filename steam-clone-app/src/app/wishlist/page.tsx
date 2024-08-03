@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { NextRequest } from "next/server";
 
 const wishlistItems = [
   {

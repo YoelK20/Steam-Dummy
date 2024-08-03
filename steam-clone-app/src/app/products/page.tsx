@@ -3,6 +3,7 @@ import { Card } from "@/components/Card";
 import { ApiResponseType } from "../api/types";
 import { useEffect, useState } from "react";
 import { ProductInput } from "@/db/models/Product";
+import { Metadata, ResolvedMetadata } from "next";
 
 // export type ProductData = {
 //   id: number;
@@ -53,6 +54,7 @@ export default function Products() {
         setLoading(false)
       });
   }, []);
+
   return (
     <div className="bg-slate-800 min-h-screen">
       <div className="flex justify-center p-4 items-center">

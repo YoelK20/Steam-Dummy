@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default function NavBar() {
@@ -10,13 +11,19 @@ export default function NavBar() {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a>Store</a>
+            <Link href={"/"}>
+            <button>Store</button>
+            </Link>
           </li>
           <li>
-            <a>Product</a>
+          <Link href={"/products"}>
+          <button>Products</button>
+            </Link>
           </li>
           <li>
-            <a>Wishlist</a>
+          <Link href={"/wishlist"}>
+            <button>Wishlist</button>
+            </Link>
           </li>
         </ul>
       </div>

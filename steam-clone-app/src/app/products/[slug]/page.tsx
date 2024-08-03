@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import img from "@/app/assets/guardians-galaxy-scaled.jpg"
-import ProductModel from '@/db/models/Product';
 import Link from 'next/link';
+import { Metadata, ResolvedMetadata } from 'next';
 
 interface Product {
   data: any
@@ -12,6 +12,25 @@ interface Product {
   images: string[]
   tags: string[];
   createdAt: string;
+}
+
+type Props = {
+  params: { slug:string }
+  searchParams : { [key : string]: string | string[] | undefined}
+}
+
+export async function generateMetadata (
+  { params, searchParams } : Props,
+): Promise<Metadata> {
+  const slug = params.slug
+
+  const game : Product = await fetchProductBySlug(slug)
+
+  return {
+    title: game.name,
+    description: game.description
+  }
+
 }
 
 async function fetchProductBySlug (slug: string) : Promise<Product>{
