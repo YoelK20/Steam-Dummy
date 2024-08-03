@@ -2,6 +2,7 @@ import Image from 'next/image';
 import img from "@/app/assets/guardians-galaxy-scaled.jpg"
 import Link from 'next/link';
 import { Metadata, ResolvedMetadata } from 'next';
+import { localUrl } from '@/db/helpers/BaseUrl';
 
 interface Product {
   data: any
@@ -34,7 +35,7 @@ export async function generateMetadata (
 }
 
 async function fetchProductBySlug (slug: string) : Promise<Product>{
-  const res = await fetch(`http://localhost:3000/api/products/${slug}`)
+  const res = await fetch(`${localUrl}/api/products/${slug}`)
   const data : Product = await res.json()
   if(!res.ok){
     throw new Error (`Failed to fetch data product ${slug}`)

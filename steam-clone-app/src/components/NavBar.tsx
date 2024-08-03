@@ -29,7 +29,7 @@ export default function NavBar() {
       </div>
       <div className="navbar-end">
       <form
-        className="mt-8 text-center"
+        className="text-center"
         action={async () => {
           "use server";
           cookies().get("token") && cookies().delete("token");
@@ -38,7 +38,7 @@ export default function NavBar() {
       >
         <button
           type="submit"
-          className="rounded bg-blue-200 px-4 py-2 transition-colors duration-300 hover:bg-blue-400 hover:text-white"
+          className="rounded px-4 py-2 transition-colors duration-300btn btn-ghost"
         >
           Logout
         </button>

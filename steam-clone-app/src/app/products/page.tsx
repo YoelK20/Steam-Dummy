@@ -1,32 +1,17 @@
 "use client";
 import { Card } from "@/components/Card";
 import { ApiResponseType } from "../api/types";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { ProductInput } from "@/db/models/Product";
-import { Metadata, ResolvedMetadata } from "next";
+import { localUrl } from "@/db/helpers/BaseUrl";
 
-// export type ProductData = {
-//   id: number;
-//   name: string;
-//   slug: string;
-//   description: string;
-//   excerpt: string;
-//   price: number;
-//   tags: string[];
-//   thumbnail: string;
-//   images: string[];
-//   createdAt: Date;
-//   updatedAt: Date;
-// };
-
-async function fetchProducts(): Promise<ProductInput[]> {
+async function fetchProducts(query: string = ""): Promise<ProductInput[]> {
   try {
-    const res = await fetch("http://localhost:3000/api/products", {
+    const res = await fetch(`${localUrl}/api/products?search=${query}`, {
       cache: "no-store",
     });
 
     const data: ApiResponseType<ProductInput[]> = await res.json();
-    // console.log(data, "<<<<< Hasil fetch all product data");
     if (!res.ok) {
       throw new Error("Failed to Fetch data");
     }
@@ -41,34 +26,52 @@ async function fetchProducts(): Promise<ProductInput[]> {
 export default function Products() {
   const [products, setProducts] = useState<ProductInput[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  // console.log(products, "<<<<<< hasil dari products");
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [debouncedSearchInput, setDebouncedSearchInput] = useState<string>("");
 
   useEffect(() => {
-    fetchProducts()
+    setLoading(true);
+    fetchProducts(debouncedSearchInput)
       .then((data) => {
-        setProducts(data)
-        setLoading(false)
+        setProducts(data);
+        setLoading(false);
       })
       .catch((error) => {
-        console.log(error)
-        setLoading(false)
+        console.log(error);
+        setLoading(false);
       });
-  }, []);
+  }, [debouncedSearchInput]);
+
+  const debounce = (func: (...args: any[]) => void, delay: number) => {
+    let timeoutId: NodeJS.Timeout;
+    return (...args: any[]) => {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(event.target.value);
+    debouncedSearch(event.target.value);
+  };
+
+  const debouncedSearch = useCallback(debounce((query: string) => {
+    setDebouncedSearchInput(query);
+  }, 500), []);
 
   return (
     <div className="bg-slate-800 min-h-screen">
       <div className="flex justify-center p-4 items-center">
-        <div className="input input-bordered  w-[85%] h-[50px] input-sm">
-          <form
-            action=""
-            method="get"
-            className="flex items-center justify-start mt-2"
-          >
+        <div className="input input-bordered h-[50px] input-sm">
+          <form action="" method="get" className="flex items-center justify-start mt-2">
             <input
               type="search"
               name="search"
               placeholder="Search"
-              //   onChange={(e) => setSearch(e.target.value)}
+              value={searchInput}
+              onChange={handleSearchInputChange}
             />
           </form>
         </div>

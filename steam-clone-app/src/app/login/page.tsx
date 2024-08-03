@@ -6,7 +6,7 @@ export default function Login() {
 
   // const handleFormAction = async(form : FormData) => {
   //   "use server";
-  //   const res = await fetch("http://localhost:3000/api/register", {
+  //   const res = await fetch(`${localUrl}/api/register`, {
   //     method: "POST",
 
   //   })

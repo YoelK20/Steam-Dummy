@@ -2,10 +2,11 @@ import Banner from "@/components/Banner";
 import { Card } from "@/components/Card";
 import { ProductInput } from "@/db/models/Product";
 import { ApiResponseType } from "./api/types";
+import { localUrl } from "@/db/helpers/BaseUrl";
 // import Image from "next/image";
 async function fetchProducts(): Promise<ProductInput[]> {
   try {
-    const res = await fetch("http://localhost:3000/api/home", {
+    const res = await fetch(`${localUrl}/api/home`, {
       cache: "no-store",
     });
 
