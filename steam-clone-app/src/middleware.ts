@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
     // console.log(request.method, request.url, "<<<<<<,");
   }
 
-  if (request.url.includes("/wishlist") || request.url.includes("/products") || request.url.includes("/api/path:*")) {
+  if (request.url.includes("/wishlist") || request.url.includes("/products") || request.url.includes("/api/wishlist")) {
     // console.log(request.method, request.url, "<<>>>>");
     const cookiesStore = cookies();
     const token = cookiesStore.get("token");
