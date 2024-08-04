@@ -7,7 +7,7 @@ import { localUrl } from "@/db/helpers/BaseUrl";
 async function fetchProducts(): Promise<ProductInput[]> {
   try {
     const res = await fetch(`${localUrl}/api/home`, {
-      cache: "no-store",
+      // cache: "no-store",
     });
 
     const data: ApiResponseType<ProductInput[]> = await res.json();
