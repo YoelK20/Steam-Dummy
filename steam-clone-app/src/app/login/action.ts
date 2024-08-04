@@ -1,6 +1,6 @@
 "use server"
 
-import { localUrl } from "@/db/helpers/BaseUrl";
+import { baseUrl, localUrl } from "@/db/helpers/BaseUrl";
 import { compareTextWithHash } from "@/db/helpers/bcrypt";
 import { getToken } from "@/db/helpers/jwt";
 import UserModel from "@/db/models/User";
@@ -30,14 +30,14 @@ export async function doLogin (form: FormData){
         const errMesage = parsedData.error.issues[0].message;
         const errFinalMessage = `${errPath}-${errMesage}`
 
-        return redirect(`${localUrl}/login?error=${errFinalMessage}`)
+        return redirect(`${baseUrl}/login?error=${errFinalMessage}`)
     }
 
     const user = await UserModel.getUserByUsername(parsedData.data.username)
     // console.log(user);
     
     if(!user || !compareTextWithHash(parsedData.data.password, user.password)){
-        return redirect (`${localUrl}/login?error=Invalid%20credentials`)
+        return redirect (`${baseUrl}/login?error=Invalid%20credentials`)
     }
 
     const payload = {
@@ -55,5 +55,5 @@ export async function doLogin (form: FormData){
         sameSite: "strict"
     })
 
-    return redirect(`${localUrl}`)
+    return redirect(`${baseUrl}`)
 }

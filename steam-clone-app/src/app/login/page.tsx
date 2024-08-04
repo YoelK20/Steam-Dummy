@@ -3,7 +3,7 @@ import logo from "@/app/assets/steam-logo.png";
 import Image from "next/image";
 import { doLogin } from "./action";
 import ClientFlashComponent from "@/components/ClientFlashComponent";
-import { localUrl } from "@/db/helpers/BaseUrl";
+import { localUrl, baseUrl } from "@/db/helpers/BaseUrl";
 import { ApiResponseType } from "../api/types";
 import { redirect } from "next/navigation";
 
@@ -11,7 +11,7 @@ export default function Login() {
   // const handleFormAction = async(form : FormData) => {
   /* token gk tersimpan */
   //   "use server";
-  //   const res = await fetch(`${localUrl}/api/login`, {
+  //   const res = await fetch(`${baseUrl}/api/login`, {
   //     method: "POST",
   //     body: JSON.stringify({
   //       username: form.get("username"),

@@ -3,11 +3,11 @@ import { Card } from "@/components/Card";
 import { ApiResponseType } from "../api/types";
 import { useEffect, useState, useCallback } from "react";
 import { ProductInput } from "@/db/models/Product";
-import { localUrl } from "@/db/helpers/BaseUrl";
+import { baseUrl, localUrl } from "@/db/helpers/BaseUrl";
 
 async function fetchProducts(query: string = ""): Promise<ProductInput[]> {
   try {
-    const res = await fetch(`${localUrl}/api/products?search=${query}`, {
+    const res = await fetch(`${baseUrl}/api/products?search=${query}`, {
       // cache: "no-store",
     });
 

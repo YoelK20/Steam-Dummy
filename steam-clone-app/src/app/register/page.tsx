@@ -5,12 +5,12 @@ import { ApiResponseType } from "../api/types";
 import { redirect } from "next/navigation";
 import ClientFlashComponent from "@/components/ClientFlashComponent";
 import Link from "next/link";
-import { localUrl } from "@/db/helpers/BaseUrl";
+import { baseUrl, localUrl } from "@/db/helpers/BaseUrl";
 export default function Register() {
   const handleFormAction = async (formData: FormData) => {
     "use server";
 
-    const res = await fetch(`${localUrl}/api/register`, {
+    const res = await fetch(`${baseUrl}/api/register`, {
       method: "POST",
 
       body: JSON.stringify({

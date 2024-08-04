@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { localUrl } from '@/db/helpers/BaseUrl';
+import { baseUrl, localUrl } from '@/db/helpers/BaseUrl';
 import { addWishlist } from './action';
 
 interface Product {
@@ -33,7 +33,7 @@ export async function generateMetadata(
 }
 
 async function fetchProductBySlug(slug: string): Promise<Product> {
-  const res = await fetch(`${localUrl}/api/products/${slug}`);
+  const res = await fetch(`${baseUrl}/api/products/${slug}`);
   const data: Product = await res.json();
   if (!res.ok) {
     throw new Error(`Failed to fetch data product ${slug}`);

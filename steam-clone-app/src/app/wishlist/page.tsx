@@ -5,7 +5,7 @@ import { NextRequest } from "next/server";
 import { ApiResponseType } from "../api/types";
 import { useEffect, useState, useCallback } from "react";
 import { WishlistData } from "@/db/models/Wishlist";
-import { localUrl } from "@/db/helpers/BaseUrl";
+import { baseUrl, localUrl } from "@/db/helpers/BaseUrl";
 
 
 export default function Wishlist() {
@@ -13,7 +13,7 @@ export default function Wishlist() {
 
   async function fetchWishlist() {
     try {
-      const res = await fetch(`${localUrl}/api/wishlist`, {
+      const res = await fetch(`${baseUrl}/api/wishlist`, {
         // cache: "no-store",
       });
   
@@ -38,7 +38,7 @@ export default function Wishlist() {
   async function deleteWishlist(idWishlist: string) {
     try {
       
-      const res = await fetch(`${localUrl}/api/wishlist`, {
+      const res = await fetch(`${baseUrl}/api/wishlist`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

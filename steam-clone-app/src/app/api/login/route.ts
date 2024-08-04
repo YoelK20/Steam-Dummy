@@ -1,4 +1,4 @@
-import { localUrl } from "@/db/helpers/BaseUrl";
+import { baseUrl } from "@/db/helpers/BaseUrl";
 import { compareTextWithHash } from "@/db/helpers/bcrypt";
 import { getToken } from "@/db/helpers/jwt";
 import UserModel from "@/db/models/User";
@@ -28,11 +28,11 @@ export async function POST(req: NextRequest) {
       const errMesage = parsedData.error.issues[0].message;
       const errFinalMessage = `${errPath}-${errMesage}`
 
-      return redirect(`${localUrl}/login?error=${errFinalMessage}`)
+      return redirect(`${baseUrl}/login?error=${errFinalMessage}`)
   }
   const user = await UserModel.getUserByUsername(username)
   if(!user || !compareTextWithHash(parsedData.data.password, user.password)){
-    return redirect (`${localUrl}/login?error=Invalid%20credentials`)
+    return redirect (`${baseUrl}/login?error=Invalid%20credentials`)
 }
 
 const payload = {

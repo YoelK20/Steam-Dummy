@@ -2,7 +2,7 @@
 import Image from "next/image";
 import logo from "@/app/assets/guardians-galaxy-scaled.jpg";
 import Link from "next/link";
-import { localUrl } from "@/db/helpers/BaseUrl";
+import { baseUrl, localUrl } from "@/db/helpers/BaseUrl";
 import { redirect, useRouter } from "next/navigation";
 
 interface Product {
@@ -19,7 +19,7 @@ export const Card = (props: Product) => {
   const router = useRouter();
   async function AddWish() {
     try {
-      const res = await fetch(`${localUrl}/api/wishlist`, {
+      const res = await fetch(`${baseUrl}/api/wishlist`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
