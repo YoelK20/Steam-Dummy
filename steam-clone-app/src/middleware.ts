@@ -20,12 +20,12 @@ export async function middleware(request: NextRequest) {
     const cookiesStore = cookies();
     const token = cookiesStore.get("token");
 
-    if (!token) {
-      return NextResponse.json({
-        statusCode: 401,
-        error: "Unauthorized",
-      });
-    }
+    // if (!token) {
+    //   return NextResponse.json({
+    //     statusCode: 401,
+    //     error: "Unauthorized",
+    //   });
+    // }
     
     if(!token){
       return NextResponse.redirect(new URL ("/login", request.url))
