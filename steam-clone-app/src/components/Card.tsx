@@ -1,6 +1,9 @@
+"use client"
 import Image from "next/image";
 import logo from "@/app/assets/guardians-galaxy-scaled.jpg";
 import Link from "next/link";
+import { localUrl } from "@/db/helpers/BaseUrl";
+import { redirect, useRouter } from "next/navigation";
 
 interface Product {
   id:string
@@ -13,6 +16,28 @@ interface Product {
 }
 
 export const Card = (props: Product) => {
+  const router = useRouter();
+  async function AddWish() {
+    try {
+      const res = await fetch(`${localUrl}/api/wishlist`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productId : props.id }),
+      })
+
+      if(!res.ok){
+        throw new Error("Failed to add games into Wishlist")
+      }
+
+      router.push('/wishlist');
+    } catch (error) {
+      console.log(error);
+      throw error
+      
+    }
+  }
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg bg-cyan-700">
       <img
@@ -29,7 +54,7 @@ export const Card = (props: Product) => {
           <span className="text-2xl font-bold">Rp {props.price}</span>
         </div>
         <div className="mt-4">
-          <button className="bg-teal-600 hover:bg-teal-900 text-white font-bold py-2 px-4 rounded w-full mb-2">
+          <button className="bg-teal-600 hover:bg-teal-900 text-white font-bold py-2 px-4 rounded w-full mb-2" onClick={AddWish}>
             Add to Wishlist
           </button>
           <Link key={props.id} href={`/products/${props.slug}`}>

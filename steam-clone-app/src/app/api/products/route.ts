@@ -12,7 +12,10 @@ export async function GET() {
     });
   } catch (error) {
     // console.log(typeof error );
-    return error
+    return NextResponse.json({
+      status: 400,
+      message: error
+    })
     
   };
 };

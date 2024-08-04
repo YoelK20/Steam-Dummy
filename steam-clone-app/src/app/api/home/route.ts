@@ -1,7 +1,7 @@
 import ProductModel from "@/db/models/Product";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET():Promise<NextResponse> {
   try {
     const products = await ProductModel.get8Product()
     // console.log(products);
@@ -12,7 +12,11 @@ export async function GET() {
     });
   } catch (error) {
     // console.log(typeof error );
-    return error
+    return NextResponse.json({
+      status: 400,
+      message: error
+  }
+);
     
   };
 };

@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 export async function middleware(request: NextRequest) {
    console.log(request.method, request.url)
   if (
-    !request.url.includes("/api") &&
+    // !request.url.includes("/api") &&
     !request.url.includes("_next/static") &&
     !request.url.includes("_next/image") &&
     !request.url.includes("favicon.ico")
@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
     // console.log(request.method, request.url, "<<<<<<,");
   }
 
-  if (request.url.includes("/wishlist") || request.url.includes("/products")) {
+  if (request.url.includes("/wishlist") || request.url.includes("/products") || request.url.includes("/api/path:*")) {
     // console.log(request.method, request.url, "<<>>>>");
     const cookiesStore = cookies();
     const token = cookiesStore.get("token");
@@ -26,6 +26,7 @@ export async function middleware(request: NextRequest) {
     //     error: "Unauthorized",
     //   });
     // }
+    
     if(!token){
       return NextResponse.redirect(new URL ("/login", request.url))
     }
@@ -34,7 +35,6 @@ export async function middleware(request: NextRequest) {
     );
 
     const requestHeaders = new Headers(request.headers);
-
     requestHeaders.set("x-user-id", tokenData.id);
     requestHeaders.set("x-user-email", tokenData.username);
 
@@ -46,5 +46,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
